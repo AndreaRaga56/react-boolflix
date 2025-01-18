@@ -19,7 +19,7 @@ function App() {
 
   let [searchKey, setSearchKey] = useState("")
   let [pagina, setPagina] = useState(1)
-  let [getResp, setGetResp] = useState(empty)
+  let [getResp, setGetResp] = useState(null)
 
   const handleOnChange = (event) => {
     let newSearchKey = event.target.value;
@@ -29,7 +29,7 @@ function App() {
   const getMovies=()=>{
     axios.get(`${apiUrl}?api_key=${apiKey}&query=${searchKey}&page=${pagina}`).then((resp) => { 
       setGetResp(resp.data)   
-      console.log(resp.data)  
+      console.log(resp.data.results)  
     });    
   }
 
