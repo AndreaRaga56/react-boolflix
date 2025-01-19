@@ -1,84 +1,118 @@
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-.list{
+.list {
     overflow-x: auto;
     max-width: 100%;
     display: flex;
     gap: 15px;
 }
 
-.stellina{
+.stellina {
     min-width: 10px;
     min-height: 10px;
-    color: yellow;
+    color: rgb(248, 39, 39);
 }
 
-.stelline-container{
-    border-radius: 10px;
-    padding: 0.4rem 0.6rem;
-    background-color: rgba(43, 42, 42, 0.657);
+.stelline-container {
     display: inline-block;
 }
 
-.bandierina{
-    width: 40px;
-}
-
-.bandierina img{
-    width: 100%;
-}
-
-.ms-placeholder{
-    width: 185px;
-    min-height: 283px;
-    position: relative;
-}
-
-.ms-placeholder img{
-    position: absolute;
-    bottom: 0;
-    border: 2px solid white;
-}
-
-.vuoto {
-    border: 2px solid white;
+.bandierina {
+    height: 15px;
     display: flex;
     align-items: center;
-    text-align: center;
+    gap: 5px;
 }
 
-.ps-4 h1{
+.bandierina img {
+    height: 100%;
+}
+
+.ms-placeholder {
+    width: 188.2px;
+    min-height: 283px;
+    position: relative;
+    padding: 1px;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+
+.ms-placeholder .nascosto {
+    position: absolute;
+    z-index: 0;
+    top: 80px;
+    padding: 0px 11px;
+}
+
+.ms-placeholder .poster {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    border-radius: 8px;
+    border: 2px solid rgb(248, 39, 39);
+}
+
+.ms-placeholder:hover .poster {
+    display: none;
+}
+
+.ms-placeholder:hover {
+    background-color: rgba(69, 0, 0, 0.597);
+    border-radius: 8px;
+    border: 8px rgb(248, 39, 39) solid;
+}
+
+.ms-placeholder p {
+    margin: 3px;
+    font-size: 14px;
+}
+
+.vuoto{
+    background-color: rgba(69, 0, 0, 0.597);
+    border-radius: 8px;
+    border: 1px rgb(248, 39, 39) solid;
+}
+
+.vuoto:hover .nascosto{
+    top: 73px;
+    padding: 0px 4px;
+
+}
+
+.ps-4 h1 {
     font-family: fantasy;
     color: rgb(183, 13, 13);
 }
 
-.main{
+.main {
     background-color: rgb(30, 30, 30);
     color: white;
     min-height: 90vh;
 }
 
-.navbar{
+.navbar {
     height: 10vh;
 }
 
-.page-controller{
+.page-controller {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding-right: 10px;
 }
 
-.navbar-brand{
+.navbar-brand {
     font-size: 40px;
     color: rgb(183, 13, 13);
 }
 
-.container-fluid{
+.container-fluid {
     --bs-gutter-x: 0px;
     padding-right: 15px;
 }

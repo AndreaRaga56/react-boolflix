@@ -6,7 +6,7 @@ import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 
 
 function HomePage() {
-    const { paginaMovie, setPaginaMovie, getRespMovie, paginaSerie, setPaginaSerie, getRespSerie } = useContext(GlobalContext)
+    const { paginaMovie, setPaginaMovie, getRespMovie, paginaSerie, setPaginaSerie, getRespSerie, submitted } = useContext(GlobalContext)
 
     const cambiaPagina = (event, x, tipo) => {
         event.preventDefault()
@@ -51,76 +51,96 @@ function HomePage() {
         return array.results.map((cur) => {
             let titoloOriginale
             let titolo
-            if (type==="Serie"){
-                titolo=cur.name
-                titoloOriginale=cur.original_name
-            } else if(type==="Movie"){
-                titolo=cur.title
-                titoloOriginale=cur.original_title
+            if (type === "Serie") {
+                titolo = cur.name
+                titoloOriginale = cur.original_name
+            } else if (type === "Movie") {
+                titolo = cur.title
+                titoloOriginale = cur.original_title
             }
             const bandierina = checkLingua(cur.original_language)
             const poster = setPoster(cur.poster_path)
-            console.log(poster)
             const voto = stelline(cur.vote_average)
             return (
                 <div key={cur.id}>
                     {poster != false ?
-                        <div className="ms-placeholder"><img src={poster} alt="" /></div>
-                        : <div className="ms-placeholder vuoto" style={{ backgroundColor: "black" }}>
-                            <h2>POSTER NON DISPONIBILE</h2>
+                        <div className="ms-placeholder">
+                            <div className="nascosto">
+                                <p><strong>Titolo:</strong> {titolo}</p>
+                                <p><strong>Titolo originale:</strong> {titoloOriginale}</p>
+                                <p className="bandierina"><strong>Lingua originale:</strong><img src={bandierina} alt="" /> </p>
+                                <div className="stelline-container">{voto}</div>
+                            </div>
+                            <img className="poster" src={poster} alt="" /></div>
+
+                        : <div className="ms-placeholder vuoto">
+                            <div className="nascosto">
+                                <p><strong>Titolo:</strong> {titolo}</p>
+                                <p><strong>Titolo originale:</strong> {titoloOriginale}</p>
+                                <p className="bandierina"><strong>Lingua originale:</strong><img src={bandierina} alt="" /> </p>
+                                <div className="stelline-container">{voto}</div>
+                            </div>
                         </div>}
-                    <h3>{titolo}</h3>
-                    <p>{titoloOriginale}</p>
-                    <div className="bandierina"> <img src={bandierina} alt="" /> </div>
-                    <div className="stelline-container">{voto}</div>
                 </div>)
         })
     }
 
     return <>
+
         <div className="main">
-            {getRespMovie && (
-                <div className="ps-4">
-                    <h1 className="pt-4">FILM</h1>
-                    <div className="page-controller">
-                        <div>
-                            Sei alla pagina {paginaMovie} di {getRespMovie.total_pages}
-                        </div>
-                        <div className="d-flex gap-2">
-                            <button disabled={paginaMovie === 1} className="btn btn-danger " onClick={(event) => cambiaPagina(event, -1, "Movie")}>Precedente</button>
-                            <button disabled={paginaMovie === getRespMovie.total_pages} className="btn btn-danger " onClick={(event) => cambiaPagina(event, 1, "Movie")}>Successivo</button>
-                        </div>
-                    </div>
-                    <section className="mt-2 list">
-                        {printCards(getRespMovie, "Movie")}
-                    </section>
-                </div>)}
+
+            <div>
 
 
 
-            {getRespSerie && (
-                <div className="ps-4">
-                    <h1 className="pt-4">SERIE</h1>
-                    <div className="page-controller">
-                        <div>
-                            Sei alla pagina {paginaSerie} di {getRespSerie.total_pages}
-                        </div>
-                        <div className="d-flex gap-2">
-                            <button disabled={paginaSerie === 1} className="btn btn-danger " onClick={(event) => cambiaPagina(event, -1, "Serie")}>Precedente</button>
-                            <button disabled={paginaSerie === getRespSerie.total_pages} className="btn btn-danger " onClick={(event) => cambiaPagina(event, 1, "Serie")}>Successivo</button>
-                        </div>
-                    </div>
-                    <section className="mt-2 list">
-                        {printCards(getRespSerie, "Serie")}
-                    </section>
-                </div>)}
 
+                {getRespMovie && (
+                    <div className="ps-4">
+                        <h1 className="pt-4">FILM</h1>
+                        <div className="page-controller">
+                            <div>
+                                Sei alla pagina {paginaMovie} di {getRespMovie.total_pages}
+                            </div>
+                            <div className="d-flex gap-2">
+                                <button disabled={paginaMovie === 1} className="btn btn-danger " onClick={(event) => cambiaPagina(event, -1, "Movie")}>Precedente</button>
+                                <button disabled={paginaMovie === getRespMovie.total_pages} className="btn btn-danger " onClick={(event) => cambiaPagina(event, 1, "Movie")}>Successivo</button>
+                            </div>
+                        </div>
+                    </div>)}
+                {getRespMovie && (
+                    getRespMovie.results.length !== 0 ? (
+                        <section className="ps-4 mt-2 list">
+                            {printCards(getRespMovie, "Movie")}
+                        </section>
+                    ) : (
+                        <h3 className="ps-4 mt-2">La tua ricerca non ha prodotto risultati</h3>
+                    )
+                )}
+
+                {getRespSerie && (
+                    <div className="ps-4">
+                        <h1 className="pt-4">SERIE</h1>
+                        <div className="page-controller">
+                            <div>
+                                Sei alla pagina {paginaSerie} di {getRespSerie.total_pages}
+                            </div>
+                            <div className="d-flex gap-2">
+                                <button disabled={paginaSerie === 1} className="btn btn-danger " onClick={(event) => cambiaPagina(event, -1, "Serie")}>Precedente</button>
+                                <button disabled={paginaSerie === getRespSerie.total_pages} className="btn btn-danger " onClick={(event) => cambiaPagina(event, 1, "Serie")}>Successivo</button>
+                            </div>
+                        </div>
+                    </div>)}
+                {getRespSerie && (
+                    getRespSerie.results.length !== 0 ? (
+                        <section className="ps-4 mt-2 list">
+                            {printCards(getRespSerie, "Serie")}
+                        </section>
+                    ) : (
+                        <h3 className="ps-4 mt-2">La tua ricerca non ha prodotto risultati</h3>
+                    )
+                )}
+            </div>
         </div>
-
-
-
-
-
     </>
 }
 

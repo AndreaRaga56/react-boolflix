@@ -5,11 +5,13 @@ import HomePage from './pages/HomePage'
 import './App.css'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-const apiKey=import.meta.env.VITE_API_KEY;
+const apiKey = import.meta.env.VITE_API_KEY;
 
 function App() {
-  
+
   const apiUrl = "https://api.themoviedb.org/3/search"
+
+  let [submitted, setSubmitted] = useState(false)
 
   let [searchKey, setSearchKey] = useState("")
   let [paginaMovie, setPaginaMovie] = useState(1)
@@ -23,34 +25,42 @@ function App() {
     setSearchKey(newSearchKey)
   }
 
-  const getMovies=()=>{
-    axios.get(`${apiUrl}/movie?api_key=${apiKey}&query=${searchKey}&page=${paginaMovie}`).then((resp) => { 
+  const getMovies = () => {
+    axios.get(`${apiUrl}/movie?api_key=${apiKey}&query=${searchKey}&page=${paginaMovie}`).then((resp) => {
       setGetRespMovie(resp.data)
-    });    
+    });
   }
 
-  const getSerie=()=>{
-    axios.get(`${apiUrl}/tv?api_key=${apiKey}&query=${searchKey}&page=${paginaSerie}`).then((resp) => { 
-      setGetRespSerie(resp.data)   
-    });    
+  const getSerie = () => {
+    axios.get(`${apiUrl}/tv?api_key=${apiKey}&query=${searchKey}&page=${paginaSerie}`).then((resp) => {
+      setGetRespSerie(resp.data)
+    });
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log("Ottengo nuovi film")
     getMovies()
-  },[paginaMovie])
+  }, [paginaMovie])
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log("Ottengo nuove serie")
     getSerie()
-  },[paginaSerie])
+  }, [paginaSerie])
+
+  useEffect(() => {
+    getMovies()
+    getSerie()
+  }, [submitted])
 
   const handleSubmit = (event) => {
     event.preventDefault()
+    setSubmitted(true)
+    console.log(submitted)
     getMovies()
     getSerie()
     setPaginaMovie(1)
     setPaginaSerie(1)
+
   };
 
   const globalContextValue = {
