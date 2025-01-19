@@ -9,17 +9,14 @@ const apiKey=import.meta.env.VITE_API_KEY;
 
 function App() {
   
-  const apiUrl = "https://api.themoviedb.org/3/search/movie"
-  let empty ={
-    page: 0,
-    results: [],
-    total_pages: 1,
-    total_results: 0,
-  }
+  const apiUrl = "https://api.themoviedb.org/3/search"
 
   let [searchKey, setSearchKey] = useState("")
-  let [pagina, setPagina] = useState(1)
-  let [getResp, setGetResp] = useState(null)
+  let [paginaMovie, setPaginaMovie] = useState(1)
+  let [getRespMovie, setGetRespMovie] = useState(null)
+
+  let [paginaSerie, setPaginaSerie] = useState(1)
+  let [getRespSerie, setGetRespSerie] = useState(null)
 
   const handleOnChange = (event) => {
     let newSearchKey = event.target.value;
@@ -27,28 +24,46 @@ function App() {
   }
 
   const getMovies=()=>{
-    axios.get(`${apiUrl}?api_key=${apiKey}&query=${searchKey}&page=${pagina}`).then((resp) => { 
-      setGetResp(resp.data)   
-      console.log(resp.data.results)  
+    axios.get(`${apiUrl}/movie?api_key=${apiKey}&query=${searchKey}&page=${paginaMovie}`).then((resp) => { 
+      setGetRespMovie(resp.data)
+    });    
+  }
+
+  const getSerie=()=>{
+    axios.get(`${apiUrl}/tv?api_key=${apiKey}&query=${searchKey}&page=${paginaSerie}`).then((resp) => { 
+      setGetRespSerie(resp.data)   
     });    
   }
 
   useEffect(()=>{
+    console.log("Ottengo nuovi film")
     getMovies()
-  },[pagina])
+  },[paginaMovie])
+
+  useEffect(()=>{
+    console.log("Ottengo nuove serie")
+    getSerie()
+  },[paginaSerie])
 
   const handleSubmit = (event) => {
     event.preventDefault()
     getMovies()
+    getSerie()
+    setPaginaMovie(1)
+    setPaginaSerie(1)
   };
 
   const globalContextValue = {
     searchKey,
     handleOnChange,
     handleSubmit,
-    pagina,
-    setPagina,
-    getResp
+    paginaMovie,
+    setPaginaMovie,
+    getRespMovie,
+    paginaSerie,
+    setPaginaSerie,
+    getRespSerie
+
   }
 
   return (

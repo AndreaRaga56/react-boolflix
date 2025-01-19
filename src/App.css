@@ -1,0 +1,76 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.list{
+    overflow-x: auto;
+    max-width: 100%;
+    display: flex;
+    gap: 15px;
+}
+
+.stellina{
+    min-width: 10px;
+    min-height: 10px;
+    color: yellow;
+}
+
+.stelline-container{
+    border-radius: 10px;
+    padding: 0.4rem 0.6rem;
+    background-color: rgba(43, 42, 42, 0.657);
+    display: inline-block;
+}
+
+.bandierina{
+    width: 40px;
+}
+
+.bandierina img{
+    width: 100%;
+}
+
+.ms-placeholder{
+    width: 185px;
+    min-height: 283px;
+    position: relative;
+}
+
+.ms-placeholder img{
+    position: absolute;
+    bottom: 0;
+    border: 2px solid white;
+}
+
+.vuoto {
+    border: 2px solid white;
+}
+
+.ps-4 h1{
+    font-family: fantasy;
+    color: rgb(183, 13, 13);
+}
+
+.ps-4.main{
+    background-color: rgb(30, 30, 30);
+    color: white;
+}
+
+.page-controller{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.navbar-brand{
+    font-size: 40px;
+    color: rgb(183, 13, 13);
+}
+
+.container-fluid{
+    --bs-gutter-x: 0px;
+    padding-right: 15px;
+}
