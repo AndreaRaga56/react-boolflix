@@ -47,38 +47,30 @@ function HomePage() {
         })
     };
 
-    const printMovies = () => {
-        return getRespMovie.results.map((curMovie) => {
-            const bandierina = checkLingua(curMovie.original_language)
-            const poster = setPoster(curMovie.poster_path)
-            const voto = stelline(curMovie.vote_average)
-            return (
-                <div key={curMovie.id}>
-                    {poster != false ?
-                        <div className="ms-placeholder"><img src={poster} alt="" /></div>
-                        : <div className="ms-placeholder vuoto" style={{ backgroundColor: "black" }}></div>}
-                    <h3>{curMovie.title}</h3>
-                    <p>{curMovie.original_title}</p>
-                    <div className="bandierina"> <img src={bandierina} alt="" /> </div>
-                    <div className="stelline-container">{voto}</div>
-                </div>)
-        })
-    }
-
-
-    const printSerie = () => {
-        return getRespSerie.results.map((curSerie) => {
-            const bandierina = checkLingua(curSerie.original_language)
-            const poster = setPoster(curSerie.poster_path)
+    const printCards = (array, type) => {
+        return array.results.map((cur) => {
+            let titoloOriginale
+            let titolo
+            if (type==="Serie"){
+                titolo=cur.name
+                titoloOriginale=cur.original_name
+            } else if(type==="Movie"){
+                titolo=cur.title
+                titoloOriginale=cur.original_title
+            }
+            const bandierina = checkLingua(cur.original_language)
+            const poster = setPoster(cur.poster_path)
             console.log(poster)
-            const voto = stelline(curSerie.vote_average)
+            const voto = stelline(cur.vote_average)
             return (
-                <div key={curSerie.id}>
+                <div key={cur.id}>
                     {poster != false ?
                         <div className="ms-placeholder"><img src={poster} alt="" /></div>
-                        : <div className="ms-placeholder vuoto" style={{ backgroundColor: "black" }}></div>}
-                    <h3>{curSerie.name}</h3>
-                    <p>{curSerie.original_name}</p>
+                        : <div className="ms-placeholder vuoto" style={{ backgroundColor: "black" }}>
+                            <h2>POSTER NON DISPONIBILE</h2>
+                        </div>}
+                    <h3>{titolo}</h3>
+                    <p>{titoloOriginale}</p>
                     <div className="bandierina"> <img src={bandierina} alt="" /> </div>
                     <div className="stelline-container">{voto}</div>
                 </div>)
@@ -86,41 +78,45 @@ function HomePage() {
     }
 
     return <>
-        {getRespMovie && (
-            <div className="ps-4 main">
-                <h1 className="pt-4">FILM</h1>
-                <div className="page-controller">
-                    <div>
-                        Sei alla pagina {paginaMovie} di {getRespMovie.total_pages}
+        <div className="main">
+            {getRespMovie && (
+                <div className="ps-4">
+                    <h1 className="pt-4">FILM</h1>
+                    <div className="page-controller">
+                        <div>
+                            Sei alla pagina {paginaMovie} di {getRespMovie.total_pages}
+                        </div>
+                        <div className="d-flex gap-2">
+                            <button disabled={paginaMovie === 1} className="btn btn-danger " onClick={(event) => cambiaPagina(event, -1, "Movie")}>Precedente</button>
+                            <button disabled={paginaMovie === getRespMovie.total_pages} className="btn btn-danger " onClick={(event) => cambiaPagina(event, 1, "Movie")}>Successivo</button>
+                        </div>
                     </div>
-                    <div className="d-flex gap-2">
-                        <button disabled={paginaMovie === 1} className="btn btn-danger " onClick={(event) => cambiaPagina(event, -1, "Movie")}>Precedente</button>
-                        <button disabled={paginaMovie === getRespMovie.total_pages} className="btn btn-danger " onClick={(event) => cambiaPagina(event, 1, "Movie")}>Successivo</button>
-                    </div>
-                </div>
-                <section className="mt-2 list">
-                    {printMovies()}
-                </section>
-            </div>)}
+                    <section className="mt-2 list">
+                        {printCards(getRespMovie, "Movie")}
+                    </section>
+                </div>)}
 
 
 
-        {getRespSerie && (
-            <div className="ps-4 main">
-                <h1 className="pt-4">SERIE</h1>
-                <div className="page-controller">
-                    <div>
-                        Sei alla pagina {paginaSerie} di {getRespSerie.total_pages}
+            {getRespSerie && (
+                <div className="ps-4">
+                    <h1 className="pt-4">SERIE</h1>
+                    <div className="page-controller">
+                        <div>
+                            Sei alla pagina {paginaSerie} di {getRespSerie.total_pages}
+                        </div>
+                        <div className="d-flex gap-2">
+                            <button disabled={paginaSerie === 1} className="btn btn-danger " onClick={(event) => cambiaPagina(event, -1, "Serie")}>Precedente</button>
+                            <button disabled={paginaSerie === getRespSerie.total_pages} className="btn btn-danger " onClick={(event) => cambiaPagina(event, 1, "Serie")}>Successivo</button>
+                        </div>
                     </div>
-                    <div className="d-flex gap-2">
-                        <button disabled={paginaSerie === 1} className="btn btn-danger " onClick={(event) => cambiaPagina(event, -1, "Serie")}>Precedente</button>
-                        <button disabled={paginaSerie === getRespSerie.total_pages} className="btn btn-danger " onClick={(event) => cambiaPagina(event, 1, "Serie")}>Successivo</button>
-                    </div>
-                </div>
-                <section className="mt-2 list">
-                    {printSerie()}
-                </section>
-            </div>)}
+                    <section className="mt-2 list">
+                        {printCards(getRespSerie, "Serie")}
+                    </section>
+                </div>)}
+
+        </div>
+
 
 
 

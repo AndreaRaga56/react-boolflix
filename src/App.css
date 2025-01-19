@@ -46,6 +46,9 @@
 
 .vuoto {
     border: 2px solid white;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
 
 .ps-4 h1{
@@ -53,9 +56,14 @@
     color: rgb(183, 13, 13);
 }
 
-.ps-4.main{
+.main{
     background-color: rgb(30, 30, 30);
     color: white;
+    min-height: 90vh;
+}
+
+.navbar{
+    height: 10vh;
 }
 
 .page-controller{
