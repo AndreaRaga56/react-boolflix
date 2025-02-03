@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import GlobalContext from "../context/GlobalContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
@@ -6,7 +6,7 @@ import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 
 
 function HomePage() {
-    const { paginaMovie, setPaginaMovie, getRespMovie, paginaSerie, setPaginaSerie, getRespSerie, submitted } = useContext(GlobalContext)
+    const { paginaMovie, setPaginaMovie, getRespMovie, paginaSerie, setPaginaSerie, getRespSerie } = useContext(GlobalContext)
 
     const cambiaPagina = (event, x, tipo) => {
         event.preventDefault()
